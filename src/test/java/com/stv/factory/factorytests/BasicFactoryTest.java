@@ -3,9 +3,11 @@ package com.stv.factory.factorytests;
 import com.stv.framework.core.drivers.Driver;
 import org.openqa.selenium.WebDriver;
 import org.testng.annotations.AfterClass;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 
-import java.util.concurrent.TimeUnit;
+import java.time.Duration;
 
 import static com.stv.framework.core.lib.WigglePageURLs.START_URL;
 
@@ -16,14 +18,26 @@ public class BasicFactoryTest {
 
     @BeforeClass(description = "Start browser")
     public void setUp() {
-        WebDriver driver = getDriver();
-        driver.get(START_URL);
-        driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
-        driver.manage().window().maximize();
+        System.out.println("Before class");
+        getDriver().manage().timeouts().implicitlyWait(Duration.ofMillis(5000));
+        getDriver().manage().window().maximize();
+    }
+
+    @BeforeMethod
+    public void beforeMethod() {
+        System.out.println("Before Method");
+        getDriver().get(START_URL);
+    }
+
+    @AfterMethod
+    public void afterMethod() {
+        System.out.println("After Method");
+        getDriver().manage().deleteAllCookies();
     }
 
     @AfterClass
-    public void afterClass() throws Exception {
+    public void afterClass() {
+        System.out.println("After Class");
         getDriver().quit();
     }
 }

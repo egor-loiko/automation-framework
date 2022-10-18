@@ -5,6 +5,8 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
+import java.time.Duration;
+
 public class Driver {
     private static WebDriver driver;
 
@@ -17,8 +19,7 @@ public class Driver {
         return driver;
     }
 
-    private static void setChromeDriver()
-    {
+    private static void setChromeDriver() {
         String exePath = "C:\\chromedriver\\chromedriver.exe";
         System.setProperty("webdriver.chrome.driver", exePath);
 //        DesiredCapabilities capabilities = DesiredCapabilities.chrome();
@@ -32,11 +33,12 @@ public class Driver {
 
     private static void setFireFox() {
 
-        String exePath =  "C:\\drivers\\geckodriver.exe";
+        String exePath = "C:\\drivers\\geckodriver.exe";
         System.setProperty("webdriver.gecko.driver", exePath);
 //        DesiredCapabilities capabilities = DesiredCapabilities.firefox();
 //        capabilities.setCapability("marionette", true);
         driver = new FirefoxDriver();
 //        capabilities.setJavascriptEnabled(true);
     }
+
 }
