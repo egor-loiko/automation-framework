@@ -19,7 +19,11 @@ public class MainFactoryPage extends FactoryPage {
     public void clickOnAccountLink() {
         accountLink.click();
     }
-
+/*
+This method is necessary for the determining whether 'Accept all cookies' button is present on the page
+This is required for group test run (because for the second and consequent tests popup with 'Accept all cookies' button is not present)
+We try to reach button and in case when button is not present NoSuchElementException is thrown and step with button click is skipped
+*/
     public boolean isTrustButtonDisplayed() {
         try {
             trustButton.isDisplayed();
