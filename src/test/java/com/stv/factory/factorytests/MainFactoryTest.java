@@ -5,8 +5,8 @@ import com.stv.factory.factorypages.LoginPage;
 import com.stv.factory.factorypages.MainFactoryPage;
 import com.stv.factory.factorypages.MyAccountPage;
 import org.testng.Assert;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
-
 import static com.stv.framework.core.messages.Messages.*;
 
 public class MainFactoryTest extends BasicFactoryTest {
@@ -15,6 +15,43 @@ public class MainFactoryTest extends BasicFactoryTest {
     LoginPage loginPage = new LoginPage();
     MyAccountPage myAccountPage = new MyAccountPage();
     CreateNewAccountPage createNewAccountPage = new CreateNewAccountPage();
+
+
+    @DataProvider
+    public Object[][] validUserData() {
+        return new Object[][]{
+                {"some_email@gmail.com", "111111", "First_Name", "https://www.wiggle.co.uk/secure/account"},
+        };
+    }
+
+    @DataProvider
+    public Object[][] invalidPasswordUserData() {
+        return new Object[][]{
+                {"some_email@gmail.com", "222222"},
+        };
+    }
+
+    @DataProvider
+    public Object[][] invalidEmailUserData() {
+        return new Object[][]{
+                {"some_invalid_email@gmail.com", "111111"},
+        };
+    }
+
+    @DataProvider
+    public Object[][] newUserData() {
+        return new Object[][]{
+                {"some_email_new@gmail.com"},
+        };
+    }
+
+    @DataProvider
+    public Object[][] existingUserData() {
+        return new Object[][]{
+                {"some_email@gmail.com"},
+        };
+    }
+
 //    @Test (description = "Assert the main page is loaded and account icon is visible")
 //    public void assertAccountIconIsDisplayed() {
 //        boolean actualResult = mainFactoryPage .isAccountLinkDisplayed();
@@ -28,56 +65,56 @@ public class MainFactoryTest extends BasicFactoryTest {
 //        Assert.assertEquals(new LoginPage().isLoginContainerDisplayed(), true, "Login page isn't loaded properly");
 //    }
 
-    @Test(description = "User with correct credentials is logged in")
-    public void assertUserCorrectCredentialLoggedIn() {
+    @Test(description = "User with correct credentials is logged in", dataProvider = "validUserData")
+    public void assertUserCorrectCredentialLoggedIn(String email, String password, String firstName, String accountURL) {
         mainFactoryPage.clickOnTrustButton();
         mainFactoryPage.clickOnAccountLink();
-        loginPage.enterEmailAddressLogin("some_email@gmail.com");
-        loginPage.enterPassword("111111");
+        loginPage.enterEmailAddressLogin(email);
+        loginPage.enterPassword(password);
         loginPage.clickSignInSecurelyButton();
-        Assert.assertEquals(myAccountPage.getFirstNameInfoFromGreetingLabel(), "First_Name", "Name is not correct");
-        Assert.assertEquals(getDriver().getCurrentUrl(), "https://www.wiggle.co.uk/secure/account", "Page is not correct");
+        Assert.assertEquals(myAccountPage.getFirstNameInfoFromGreetingLabel(), firstName, "Name is not correct");
+        Assert.assertEquals(getDriver().getCurrentUrl(), accountURL, "Page is not correct");
         myAccountPage.clickSignOutButton();
 
     }
 
-    @Test(description = "User with incorrect password - login error")
-    public void assertUserIncorrectPasswordLoggedIn() {
+    @Test(description = "User with incorrect password - login error", dataProvider = "invalidPasswordUserData")
+    public void assertUserIncorrectPasswordLoggedIn(String email, String password) {
         mainFactoryPage.clickOnTrustButton();
         mainFactoryPage.clickOnAccountLink();
-        loginPage.enterEmailAddressLogin("some_email@gmail.com");
-        loginPage.enterPassword("222222");
+        loginPage.enterEmailAddressLogin(email);
+        loginPage.enterPassword(password);
         loginPage.clickSignInSecurelyButton();
         Assert.assertEquals(loginPage.getLoginErrorMessage(), LOGIN_ERROR_MESSAGE, "Messages are not matched");
 
     }
 
-    @Test(description = "User with incorrect email - login error")
-    public void assertUserIncorrectEmailLoggedIn() {
+    @Test(description = "User with incorrect email - login error", dataProvider = "invalidEmailUserData")
+    public void assertUserIncorrectEmailLoggedIn(String email, String password) {
         mainFactoryPage.clickOnTrustButton();
         mainFactoryPage.clickOnAccountLink();
-        loginPage.enterEmailAddressLogin("some_invalid_email@gmail.com");
-        loginPage.enterPassword("111111");
+        loginPage.enterEmailAddressLogin(email);
+        loginPage.enterPassword(password);
         loginPage.clickSignInSecurelyButton();
         Assert.assertEquals(loginPage.getLoginErrorMessage(), LOGIN_ERROR_MESSAGE, "Messages are not matched");
 
     }
 
-    @Test(description = "Create new customer - not existing user")
-    public void createNewCustomerNotExistingUser() {
+    @Test(description = "Create new customer - not existing user", dataProvider = "newUserData")
+    public void createNewCustomerNotExistingUser(String email) {
         mainFactoryPage.clickOnTrustButton();
         mainFactoryPage.clickOnAccountLink();
-        loginPage.enterEmailAddressNewCustomer("some_email_new@gmail.com");
+        loginPage.enterEmailAddressNewCustomer(email);
         loginPage.clickContinueButton();
         Assert.assertEquals(createNewAccountPage.isContinueButtonDisplayed(), true, "Page is not loaded");
 
     }
 
-    @Test(description = "Create new customer - existing user")
-    public void createNewCustomerExistingUser() {
+    @Test(description = "Create new customer - existing user", dataProvider = "existingUserData")
+    public void createNewCustomerExistingUser(String email) {
         mainFactoryPage.clickOnTrustButton();
         mainFactoryPage.clickOnAccountLink();
-        loginPage.enterEmailAddressNewCustomer("some_email@gmail.com");
+        loginPage.enterEmailAddressNewCustomer(email);
         loginPage.clickContinueButton();
         Assert.assertEquals(loginPage.getNewCustomerErrorMessage(), CREATE_NEW_USER_ERROR_MESSAGE, "Messages are not matched");
 

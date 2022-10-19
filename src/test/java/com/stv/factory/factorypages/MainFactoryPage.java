@@ -16,20 +16,20 @@ public class MainFactoryPage extends FactoryPage {
         return accountLink.isDisplayed();
     }
 
-    public void clickOnAccountLink(){
+    public void clickOnAccountLink() {
         accountLink.click();
     }
 
-    public boolean isTrustButtonDisplayed(){
+    public boolean isTrustButtonDisplayed() {
         try {
             trustButton.isDisplayed();
-        } catch (NoSuchElementException e){
+        } catch (NoSuchElementException e) {
             return false;
         }
-         return true;
+        return true;
     }
 
-    public void clickOnTrustButton(){
+    public void clickOnTrustButton() {
         if (isTrustButtonDisplayed()) {
             trustButton.click();
         }
