@@ -1,0 +1,28 @@
+package com.stv.bdd_framework.steps;
+
+import com.stv.factory.factorypages.MainFactoryPage;
+import com.stv.factory.factorytests.BasicFactoryTest;
+import io.cucumber.java.en.And;
+import io.cucumber.java.en.Given;
+import java.time.Duration;
+import static com.stv.framework.core.lib.WigglePageURLs.START_URL;
+
+public class MainPageSteps extends BasicFactoryTest {
+    MainFactoryPage mainFactoryPage = new MainFactoryPage();
+
+    @Given("^Main page is loaded$")
+    public void navigationToMainPage() {
+        getDriver().manage().deleteAllCookies();
+        getDriver().get(START_URL);
+        getDriver().manage().timeouts().implicitlyWait(Duration.ofMillis(5000));
+        getDriver().manage().window().maximize();
+        mainFactoryPage.isAccountLinkDisplayed();
+    }
+
+    @And("Navigate to Login page")
+    public void navigateToLoginPage() {
+        mainFactoryPage.clickOnTrustButton();
+        mainFactoryPage.clickOnAccountLink();
+    }
+
+}
