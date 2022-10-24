@@ -6,7 +6,6 @@ import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.testng.Assert;
-
 import static com.stv.framework.core.messages.Messages.CREATE_NEW_USER_ERROR_MESSAGE;
 import static com.stv.framework.core.messages.Messages.LOGIN_ERROR_MESSAGE;
 
@@ -47,4 +46,5 @@ public class LoginPageSteps extends BasicFactoryTest {
     public void userExistsValidationMessageAppears() {
         Assert.assertEquals(loginPage.getNewCustomerErrorMessage(), CREATE_NEW_USER_ERROR_MESSAGE, "Messages are not matched");
     }
+
 }
