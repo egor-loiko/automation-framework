@@ -1,7 +1,6 @@
 package com.stv.bdd_framework.steps;
 
 import com.stv.factory.factorypages.ChatPage;
-import com.stv.factory.factorypages.MainFactoryPage;
 import com.stv.factory.factorytests.BasicFactoryTest;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
@@ -9,7 +8,6 @@ import org.testng.Assert;
 
 public class ChatPageSteps extends BasicFactoryTest {
     ChatPage chatPage = new ChatPage();
-    MainFactoryPage mainFactoryPage = new MainFactoryPage();
 
     @And("Open Live Chat")
     public void openChat() {
@@ -18,7 +16,7 @@ public class ChatPageSteps extends BasicFactoryTest {
 
     @Then("Live Chat is opened")
     public void checkLiveChatIsOpened() {
-        getDriver().switchTo().frame("egain-chat-iframe");
+        chatPage.switchToChatFrame(getDriver());
         Assert.assertTrue(chatPage.isChatHeaderIdDisplayed(), "Live chat is not shown");
     }
 
@@ -38,6 +36,6 @@ public class ChatPageSteps extends BasicFactoryTest {
     public void closeLiveChat() {
         chatPage.closeChat();
         chatPage.isOpenChatIconDisplyed();
-        getDriver().switchTo().defaultContent();
+        chatPage.switchToParentFrame(getDriver());
     }
 }

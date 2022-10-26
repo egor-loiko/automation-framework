@@ -1,9 +1,10 @@
 package com.stv.factory.factorypages;
 
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-public class ChatPage extends FactoryPage{
+public class ChatPage extends FactoryPage {
 
     @FindBy(id = "eGainChatImage")
     private WebElement openChatIcon;
@@ -29,39 +30,52 @@ public class ChatPage extends FactoryPage{
     @FindBy(id = "chat-close-btn")
     private WebElement chatCloseButton;
 
-    public void clickOpenChatIcon(){
+    @FindBy(id = "egain-chat-iframe")
+    private WebElement chatFrame;
+
+    public void clickOpenChatIcon() {
         openChatIcon.click();
     }
 
-    public boolean isOpenChatIconDisplyed(){
+    public boolean isOpenChatIconDisplyed() {
         return openChatIcon.isDisplayed();
     }
 
-    public boolean isChatHeaderIdDisplayed(){
+    public boolean isChatHeaderIdDisplayed() {
         return chatHeader.isDisplayed();
     }
 
-    public void clickStartChatbutton(){
+    public void clickStartChatbutton() {
         startChatButton.click();
     }
 
-    public void enterDataToNameField(String name){
+    public void enterDataToNameField(String name) {
         nameField.sendKeys(name);
     }
 
-    public boolean isNameRequiredMessageShown(){
+    public boolean isNameRequiredMessageShown() {
         return nameIsRequiredValidation.isDisplayed();
     }
 
-    public boolean isEmailRequiredMessageShown(){
+    public boolean isEmailRequiredMessageShown() {
         return emailIsRequiredValidation.isDisplayed();
     }
 
-    public boolean isQuestionRequiredMessageShown(){
+    public boolean isQuestionRequiredMessageShown() {
         return questionIsRequiredValidation.isDisplayed();
     }
 
-    public void closeChat(){
+    public void closeChat() {
         chatCloseButton.click();
     }
+
+    public void switchToChatFrame(WebDriver driver) {
+        driver.switchTo().frame(chatFrame);
+    }
+
+    public void switchToParentFrame(WebDriver driver) {
+        driver.switchTo().parentFrame();
+    }
+
 }
+
